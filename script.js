@@ -1,30 +1,47 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('Formular');
 
-    form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', async function (event) {
         event.preventDefault();
 
-        const formData = new FormData(form); //create a new FormData object
+        const data = {
+            vorname: form.elements['vorname'].value,
+            nachname: form.elements['nachname'].value,
+            email: form.elements['email'].value,
+            nachricht: form.elements['nachricht'].value,
+            zahl: form.elements['zahl'].value,
+        };
 
-        //Ajax request to send the form data to the server
-        fetch('/saveToDB', {
+        // Ajax request to send the form data to the server
+        await fetch('/saveToDB', {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+
         })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.text(); // answer as text
+                return response.text(); // Answer as text
             })
             .then(data => {
-                console.log(data); // show the server response in the console
-                // here you can customize the processing of the server response
+                console.log(data); // Show the server response in the console
+                // Here you can customize the processing of the server response
+                clearFields(); // Clear form fields after successful submission
             })
             .catch(error => {
                 console.error('There has been a problem with your fetch operation:', error);
-                // here you can customize the processing of the error message
+                // Here you can customize the processing of the error message
             });
     });
+
+    const clearFields = () => {
+        form.reset(); // Reset the form
+        console.log('Fields cleared');
+    };
 });
+
 
