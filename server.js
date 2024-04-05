@@ -44,13 +44,14 @@ app.post('/saveToDB', (req, res) => {
     const insertQuery = 'INSERT INTO formular_daten (vorname,nachname, email,nachricht, zahl) VALUES (?, ?, ?, ?, ?)';
 
     connection.query(tableQuery);
-    connection.query(insertQuery, [vorname, nachname, email, nachricht, zahl], (error, results) => {
+    connection.query(insertQuery, [vorname, nachname, email, nachricht, zahl], (error) => {
         if (error) {
             console.error('Error inserting data into database:', error);
             res.status(500).send('Error inserting data into database');
             return;
         }
         res.send('Data uploaded successfully');
+
     });
 
     fs.appendFile('formular_daten.txt', `${vorname},${nachname}, ${email}, ${nachricht}, ${zahl}\n`, (error) => {

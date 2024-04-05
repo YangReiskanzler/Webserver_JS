@@ -6,6 +6,7 @@ body {
 }
 
 form {
+    height: 500px;
     max-width: 400px;
     margin: 20px auto;
     padding: 20px;
@@ -41,6 +42,10 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #0056b3;
+}
+
+#responseMessage {
+    margin-top: 10px;
 }
 
 @media screen and (max-width: 600px) {

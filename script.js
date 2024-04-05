@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(data => {
                 console.log(data); // Show the server response in the console
-                // Here you can customize the processing of the server response
+                document.getElementById('responseMessage').innerText = data;
                 clearFields(); // Clear form fields after successful submission
             })
             .catch(error => {
