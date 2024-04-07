@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             zahl: form.elements['zahl'].value,
         };
 
-        // Ajax request to send the form data to the server
+        // Ajax Anfrage um Formular-Daten an den server zu senden
         await fetch('/saveToDB', {
             method: 'POST',
             headers: {
@@ -25,21 +25,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.text(); // Answer as text
+                return response.text(); // Antwort als text zurückgeben
             })
             .then(data => {
-                console.log(data); // Show the server response in the console
+                console.log(data); // zeige die Antwort in der Konsole
                 document.getElementById('responseMessage').innerText = data;
-                clearFields(); // Clear form fields after successful submission
+                clearFields(); // Felder leeren
             })
             .catch(error => {
                 console.error('There has been a problem with your fetch operation:', error);
-                // Here you can customize the processing of the error message
             });
     });
 
     const clearFields = () => {
-        form.reset(); // Reset the form
+        form.reset(); // Form zurücssetzen
         console.log('Fields cleared');
     };
 });
