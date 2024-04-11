@@ -43,8 +43,39 @@ const connection = mysql.createConnection({
     // Absichtlicher Fehler: Immer erfolgreiche Authentifizierung
     return true;
 }
+app.post('/register', (req, res) => {
+    const { username, password } = req.body;
 
-app.post('/login', (req, res) => {
+    // Überprüfen Sie, ob der Benutzer bereits existiert
+    connection.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
+        if (error) {
+            console.error('Error checking existing user:', error);
+            res.status(500).send('Internal server error');
+            return;
+        }
+
+        if (results.length > 0) {
+            // Benutzer existiert bereits
+            res.status(400).send('Benutzername bereits vergeben');
+            return;
+        }
+
+        // Benutzer in die Datenbank einfügen
+        connection.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (error) => {
+            if (error) {
+                console.error('Error inserting user:', error);
+                res.status(500).send('Internal server error');
+                return;
+            }
+
+            res.send('Registrierung erfolgreich');
+
+            res.redirect('index.html');
+        });
+    });
+});
+
+/*app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
     if (authenticateUser(username, password)) {
@@ -54,7 +85,37 @@ app.post('/login', (req, res) => {
         // Authentifizierung fehlgeschlagen
         res.status(401).send('Authentication failed');
     }
+});*/
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Überprüfen, ob der Benutzer existiert und das Passwort übereinstimmt
+    connection.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
+        if (error) {
+            console.error('Error checking user:', error);
+            res.status(500).send('Internal server error');
+            return;
+        }
+
+        if (results.length === 0) {
+            // Benutzer nicht gefunden
+            res.status(401).send('Benutzer nicht gefunden');
+            return;
+        }
+
+        const user = results[0];
+        if (user.password !== password) {
+            // Passwort stimmt nicht überein
+            res.status(401).send('Falsches Passwort');
+            return;
+        }
+
+        // Authentifizierung erfolgreich, leite zum Index weiter
+        res.redirect('/index.html');
+    });
 });
+
 
 app.get('/index.html', (req, res) => {
     res.sendFile(__dirname + '/index.html');
