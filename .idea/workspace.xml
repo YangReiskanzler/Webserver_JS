@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9779f0f8-95d5-410b-9144-dca2d64ff7ff" name="Changes" comment="added server response message">
-      <change afterPath="$PROJECT_DIR$/login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/register.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/b/4b3387e23095148b0ce0f0f5830b138fe9420759" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/b/4b3387e23095148b0ce0f0f5830b138fe9420759" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/c/dc60ea9ee1ff6246bf342463277d5b914db2883d" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/c/dc60ea9ee1ff6246bf342463277d5b914db2883d" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/formular_daten.txt" beforeDir="false" afterPath="$PROJECT_DIR$/formular_daten.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -123,7 +123,7 @@
       <workItem from="1712316850667" duration="3394000" />
       <workItem from="1712494477917" duration="2942000" />
       <workItem from="1712672368951" duration="375000" />
-      <workItem from="1712836552515" duration="4553000" />
+      <workItem from="1712836552515" duration="6740000" />
     </task>
     <task id="LOCAL-00001" summary="css added">
       <option name="closed" value="true" />

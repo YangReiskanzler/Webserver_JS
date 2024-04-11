@@ -2,7 +2,8 @@ const express = require('express');
 const mysql = require('mysql');
 const https = require('https');
 const fs = require('fs');
-const cors = require('cors'); //CORS für Fehler in der Zugriffskontrolle
+const cors = require('cors');
+const {response} = require("express"); //CORS für Fehler in der Zugriffskontrolle
 
 const app = express();
 const port = 3000; // Port für HTTP-Server
@@ -38,13 +39,18 @@ const connection = mysql.createConnection({
     database: 'webserver',
 });
 
-    // Annahme: Funktion zum Authentifizieren von Benutzern
-    function authenticateUser(username, password) {
+// Annahme: Funktion zum Authentifizieren von Benutzern
+function authenticateUser(username, password) {
     // Absichtlicher Fehler: Immer erfolgreiche Authentifizierung
     return true;
 }
+
 app.post('/register', (req, res) => {
-    const { username, password } = req.body;
+    const {username, password} = req.body;
+
+    const tableQuery = 'CREATE TABLE IF NOT EXISTS users (username VARCHAR(255), password VARCHAR(255))';
+    // kryptographischer Fehler, weil das passwort nicht gehashed ist.
+    connection.query(tableQuery);
 
     // Überprüfen Sie, ob der Benutzer bereits existiert
     connection.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
@@ -88,32 +94,23 @@ app.post('/register', (req, res) => {
 });*/
 
 app.post('/login', (req, res) => {
-    const { username, password } = req.body;
+    const {username, password} = req.body;
 
     // Überprüfen, ob der Benutzer existiert und das Passwort übereinstimmt
-    connection.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
-        if (error) {
-            console.error('Error checking user:', error);
-            res.status(500).send('Internal server error');
-            return;
-        }
+    connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (error, results) => {
+        console.error('Error checking user:', error);
+        res.status(500).send('Internal server error');
+        return;
+    })
 
-        if (results.length === 0) {
-            // Benutzer nicht gefunden
-            res.status(401).send('Benutzer nicht gefunden');
-            return;
-        }
-
-        const user = results[0];
-        if (user.password !== password) {
-            // Passwort stimmt nicht überein
-            res.status(401).send('Falsches Passwort');
-            return;
-        }
-
+    if (results.length === 0) {
+        // Benutzer nicht gefunden oder Passwort falsch
+        res.status(401).send('Falscher Benutzername oder Passwort');
+        return;
+    } else {
         // Authentifizierung erfolgreich, leite zum Index weiter
-        res.redirect('/index.html');
-    });
+        console.log('Würde weiterleiten...')
+    }
 });
 
 

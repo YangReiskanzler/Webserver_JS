@@ -19,7 +19,6 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         // Erfolgreich eingeloggt, leite weiter
         window.location.href = '/index.html';
     } else {
-        alert(data)
         // Zeige die Fehlermeldung
         document.getElementById('errorMessage').innerText = data;
     }
