@@ -1,16 +1,16 @@
-document.getElementById('registerForm').addEventListener('submit', async function(event) {
+document.getElementById('registerForm').addEventListener('submit', async function (event) {
     event.preventDefault();
 
     const formData = new FormData(this);
     const username = formData.get('username');
     const password = formData.get('password');
 
-    const response = await fetch('/register', {
+    const response = await fetch('//localhost:3000/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({username, password})
     });
 
     const data = await response.text();

@@ -2,8 +2,8 @@ const express = require('express');
 const mysql = require('mysql');
 const https = require('https');
 const fs = require('fs');
-const cors = require('cors');
-const {response} = require("express"); //CORS für Fehler in der Zugriffskontrolle
+//const cors = require('cors');////CORS für Fehler in der Zugriffskontrolle
+const {response} = require("express");
 
 const app = express();
 const port = 3000; // Port für HTTP-Server
@@ -18,11 +18,11 @@ const options = {
 
 };
 
-const corsOptions = {
+/*const corsOptions = {
     origin: 'https://localhost:3000',// Zugriff auf Server nur von dieser URL erlauben
-};
+};*/
 
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
 app.get("/", (req, res) => res.sendFile(`${__dirname}/index.html`))
 app.use(express.static(__dirname));
 // Middleware zum parse von JSON-daten
@@ -46,37 +46,41 @@ function authenticateUser(username, password) {
 }
 
 app.post('/register', (req, res) => {
-    const {username, password} = req.body;
+    const { username, password } = req.body;
 
     const tableQuery = 'CREATE TABLE IF NOT EXISTS users (username VARCHAR(255), password VARCHAR(255))';
     // kryptographischer Fehler, weil das passwort nicht gehashed ist.
-    connection.query(tableQuery);
 
-    // Überprüfen Sie, ob der Benutzer bereits existiert
-    connection.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
+    connection.query(tableQuery, (error) => {
         if (error) {
-            console.error('Error checking existing user:', error);
-            res.status(500).send('Internal server error');
+            console.error('Error creating table:', error);
+            res.status(500).send('Error creating table');
             return;
         }
 
-        if (results.length > 0) {
-            // Benutzer existiert bereits
-            res.status(400).send('Benutzername bereits vergeben');
-            return;
-        }
-
-        // Benutzer in die Datenbank einfügen
-        connection.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (error) => {
+        const checkQuery = 'SELECT * FROM users WHERE username = ?';
+        connection.query(checkQuery, [username], (error, results) => {
             if (error) {
-                console.error('Error inserting user:', error);
-                res.status(500).send('Internal server error');
+                console.error('Error checking user:', error);
+                res.status(500).send('Error checking user');
                 return;
             }
 
-            res.send('Registrierung erfolgreich');
+            if (results.length > 0) {
+                res.status(409).send('User already exists');
+                return;
+            }
 
-            res.redirect('index.html');
+            const insertQuery = 'INSERT INTO users (username, password) VALUES (?, ?)';
+            connection.query(insertQuery, [username, password], (error) => {
+                if (error) {
+                    console.error('Error inserting data into database:', error);
+                    res.status(500).send('Error inserting data into database');
+                    return;
+                }
+            });
+
+            res.send('User registered successfully');
         });
     });
 });
@@ -94,23 +98,25 @@ app.post('/register', (req, res) => {
 });*/
 
 app.post('/login', (req, res) => {
-    const {username, password} = req.body;
+    const { username, password } = req.body;
 
     // Überprüfen, ob der Benutzer existiert und das Passwort übereinstimmt
     connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (error, results) => {
-        console.error('Error checking user:', error);
-        res.status(500).send('Internal server error');
-        return;
-    })
+        if (error) {
+            console.error('Error checking user:', error);
+            res.status(500).send('Internal server error');
+            return;
+        }
 
-    if (results.length === 0) {
-        // Benutzer nicht gefunden oder Passwort falsch
-        res.status(401).send('Falscher Benutzername oder Passwort');
-        return;
-    } else {
-        // Authentifizierung erfolgreich, leite zum Index weiter
-        console.log('Würde weiterleiten...')
-    }
+        if (results.length === 0) {
+            // Benutzer existiert nicht oder Passwort stimmt nicht überein
+            res.status(401).send('username or password does not exist');
+            return;
+        }
+
+        // Authentifizierung erfolgreich
+        res.redirect('/index.html');
+    });
 });
 
 
