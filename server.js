@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 
 const options = {
     cert: fs.readFileSync('SSL/server.crt'),
-    key: fs.readFileSync('SSL/server.key')//absichtlicher kryptograhischer Fehler: falscher Schlüssel
+    key: fs.readFileSync('SSL/server.key')
 
 };
 
@@ -71,6 +71,11 @@ app.post('/register', (req, res) => {
                 return;
             }
 
+            if (password.length < 4) {
+                res.status(409).send('password must be at least 4 characters long');
+                return;
+            }
+
             const insertQuery = 'INSERT INTO users (username, password) VALUES (?, ?)';
             connection.query(insertQuery, [username, password], (error) => {
                 if (error) {
@@ -101,7 +106,7 @@ app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
     // Überprüfen, ob der Benutzer existiert und das Passwort übereinstimmt
-    connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (error, results) => {
+    connection.query(`SELECT * FROM users WHERE username = "${username}" AND password = "${password}"`, [username, password], (error, results) => {
         if (error) {
             console.error('Error checking user:', error);
             res.status(500).send('Internal server error');
@@ -124,22 +129,6 @@ app.get('/index.html', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-/*app.post('/sensitiveOperation', (req, res) => {
-    const { sensitiveData } = req.body;
-
-    // Absichtlicher Fehler: Vernachlässigung der Sicherheitsprotokollierung
-    // Protokollieren Sie nicht das sensitiveData in den Serverlogs
-    console.log('Sensitive data received:', sensitiveData);
-
-    // Führen Sie sensitive Operationen durch
-
-    // Absichtlicher Fehler: Vernachlässigung der Sicherheitsüberwachung
-    // Überwachen Sie nicht, wer auf den sensiblen Endpunkt zugreift
-    // Oder überwachen Sie nicht, welche Aktionen mit den sensitiven Daten durchgeführt werden
-
-    // Senden Sie eine Antwort
-    res.send('Sensitive operation completed');
-});*/
 
 // Verbindung zur Datenbank herstellen
 connection.connect((err) => {

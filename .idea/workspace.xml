@@ -7,10 +7,7 @@
     <list default="true" id="9779f0f8-95d5-410b-9144-dca2d64ff7ff" name="Changes" comment="added server response message">
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/c/dc60ea9ee1ff6246bf342463277d5b914db2883d" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/c/dc60ea9ee1ff6246bf342463277d5b914db2883d" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/formular_daten.txt" beforeDir="false" afterPath="$PROJECT_DIR$/formular_daten.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -126,7 +123,7 @@
       <workItem from="1712836552515" duration="7901000" />
       <workItem from="1712844977153" duration="52000" />
       <workItem from="1712845036057" duration="690000" />
-      <workItem from="1712846184847" duration="1414000" />
+      <workItem from="1712846184847" duration="3705000" />
     </task>
     <task id="LOCAL-00001" summary="css added">
       <option name="closed" value="true" />
