@@ -3,7 +3,6 @@ const mysql = require('mysql');
 const https = require('https');
 const fs = require('fs');
 //const cors = require('cors');////CORS für Fehler in der Zugriffskontrolle
-const {response} = require("express");
 
 const app = express();
 const port = 3000; // Port für HTTP-Server
@@ -39,11 +38,6 @@ const connection = mysql.createConnection({
     database: 'webserver',
 });
 
-// Annahme: Funktion zum Authentifizieren von Benutzern
-function authenticateUser(username, password) {
-    // Absichtlicher Fehler: Immer erfolgreiche Authentifizierung
-    return true;
-}
 
 app.post('/register', (req, res) => {
     const { username, password } = req.body;
@@ -81,7 +75,6 @@ app.post('/register', (req, res) => {
                 if (error) {
                     console.error('Error inserting data into database:', error);
                     res.status(500).send('Error inserting data into database');
-                    return;
                 }
             });
 
@@ -89,18 +82,6 @@ app.post('/register', (req, res) => {
         });
     });
 });
-
-/*app.post('/login', (req, res) => {
-    const { username, password } = req.body;
-
-    if (authenticateUser(username, password)) {
-        // Authentifizierung erfolgreich
-        res.redirect('/index.html');
-    } else {
-        // Authentifizierung fehlgeschlagen
-        res.status(401).send('Authentication failed');
-    }
-});*/
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
